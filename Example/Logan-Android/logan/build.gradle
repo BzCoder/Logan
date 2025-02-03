@@ -1,17 +1,16 @@
 apply plugin: 'com.android.library'
-apply from: rootProject.file("bintrayUpload.gradle")
 
 android {
 //    publishNonDefault true
 
-    compileSdkVersion 23
-    buildToolsVersion "25.0.2"
+    compileSdk = 35
+    namespace = "com.dianping.logan"
+    ndkVersion "16.1.4479499"
+
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 21
+        targetSdkVersion 35
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -41,9 +40,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
+    dependencies {
+        // 使用 implementation 替代 compile，包含 libs 目录下所有 .jar 文件
+        implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+        // 使用 androidTestImplementation 替代 androidTestCompile，
+        // 并将 espresso 依赖更新到 AndroidX 版本
+        androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1') {
+            exclude group: 'androidx.annotation', module: 'annotation'
+        }
+
+        // 使用 testImplementation 替代 testCompile
+        testImplementation 'junit:junit:4.13.2'
+    }
 }

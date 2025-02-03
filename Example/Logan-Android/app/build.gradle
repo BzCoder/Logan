@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.2"
+    namespace = "test.logan.dianping.com.logan"
+    compileSdk = 35
     defaultConfig {
         applicationId "test.logan.dianping.com.logan"
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,13 +20,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    // 包含 libs 目录下的所有 .jar 文件
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Android 测试依赖
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
-    compile project(':logan')
-//    compile 'com.dianping.android.sdk:logan:1.1.0'
-//    releaseCompile project(path: ':logan', configuration: 'release')
-//    debugCompile project(path: ':logan', configuration: 'debug')
+    }
+
+    // 单元测试依赖
+    testImplementation 'junit:junit:4.12'
+
+    // 依赖本地模块
+    implementation project(':logan')
+
+    // 如果需要根据不同构建类型依赖不同的变体，可以使用以下方式
+    // releaseImplementation project(path: ':logan', configuration: 'release')
+    // debugImplementation project(path: ':logan', configuration: 'debug')
 }
